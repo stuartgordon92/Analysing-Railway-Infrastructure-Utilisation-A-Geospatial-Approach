@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Project:
+    Type: String
+    Description: This is the tag of the project
+  Application:
+    Type: String
+    Description: This is the tag of the application
+  AMIId:
+    Type: String
+    Description: ID of the Amazon Machine Image (AMI) for the EC2 instance
+  IAMRole:
+    Type: String
+    Description: IAM role to associate with the EC2 instance
+  Subnet:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID where the EC2 instance will be launched
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security Group ID for the EC2 instance
+  InstanceType:
+    Type: String
+    Description: EC2 instance type
+  BucketToRetrive:
+    Type: String
+    Description: S3 folder to copy from
+  StartCommand:
+    Type: String
+    Description: application start command
+Resources:
+  TrustEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AMIId
+      InstanceType: !Ref InstanceType
+      IamInstanceProfile: !Ref IAMRole
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: !Ref Subnet
+          GroupSet:
+          - !Ref SecurityGroup
+      UserData: 
+          Fn::Base64: !Sub |
+           #!/bin/bash -xe
+           sudo yum update -y # good practice to update existing packages
+
+           aws s3 cp ${BucketToRetrive} /home/ec2-user/ --recursive
+           chmod -R 755 /home/ec2-user/
+
+           ${StartCommand}
+
+
+Outputs:
+  InstanceId:
+    Value: !Ref TrustEC2Instance
+    Description: EC2 Instance ID

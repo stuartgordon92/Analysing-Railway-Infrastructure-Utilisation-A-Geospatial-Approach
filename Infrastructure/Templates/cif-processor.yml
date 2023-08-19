@@ -1,0 +1,226 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An AWS Lambda function to retrive the cif file and process it
+
+Parameters:
+
+  Project:
+    Type: String
+    Description: This is the tag of the project
+  Application:
+    Type: String
+    Description: This is the tag of the application
+    
+  LambdaFunctionBucketName:
+    Type: String
+    Description: Name of the S3 bucket with the function
+  LambdaFunctionZipFileKey:
+    Type: String
+    Description: Name of the S3 key for the function code
+
+  cifPass:
+    Type: String
+    Description: rabbit admin password
+  cifUser:
+    Type: String
+    Description: rabbit admin username
+
+  ArchiveBucket:
+    Type: String
+    Description: Name of the S3 bucket with the function
+  ArchiveFolder:
+    Type: String
+    Description: Name of the S3 key for the function code
+
+  AMIId:
+    Type: String
+    Description: ID of the Amazon Machine Image (AMI) for the EC2 instance
+  IAMRole:
+    Type: String
+    Description: IAM role to associate with the EC2 instance
+  Subnet:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID where the EC2 instance will be launched
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security Group ID for the EC2 instance
+  InstanceType:
+    Type: String
+    Description: EC2 instance type
+  BucketToRetrive:
+    Type: String
+    Description: S3 folder to copy from
+  StartCommand:
+    Type: String
+    Description: application start command
+
+  MongoAMIId:
+    Type: String
+    Description: ID of the Mongo Amazon Machine Image (AMI) for the EC2 instance
+  EIPAllocation:
+    Type: String
+    Description: EIP Allocation ID
+  MongoInstanceType:
+    Type: String
+    Description: EC2 instance type
+ 
+Resources:
+
+  MongoDBInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref MongoAMIId
+      InstanceType: !Ref MongoInstanceType
+      IamInstanceProfile: !Ref IAMRole
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}-mongo'
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: !Ref Subnet
+          GroupSet:
+          - !Ref SecurityGroup
+      UserData: 
+          Fn::Base64: !Sub |
+           #!/bin/bash -xe
+           sudo yum update -y # good practice to update existing packages
+          
+
+  MongoENIAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !Ref EIPAllocation
+      InstanceId: !Ref MongoDBInstance
+
+
+  CifProcessorEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AMIId
+      InstanceType: !Ref InstanceType
+      IamInstanceProfile: !Ref IAMRole
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: !Ref Subnet
+          GroupSet:
+          - !Ref SecurityGroup
+      UserData: 
+          Fn::Base64: !Sub |
+           #!/bin/bash -xe
+           sudo yum update -y # good practice to update existing packages
+           sudo yum install collectd -y
+           sudo yum install htop -y
+           sudo yum install amazon-cloudwatch-agent -y
+           sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:AmazonCloudWatch-linux
+           
+           pip install pymongo
+           
+           find /home/ec2-user -mindepth 1 ! -regex '^/home/ec2-user/log\(/.*\)?' -delete
+           
+           aws s3 cp ${BucketToRetrive} /home/ec2-user/ --recursive
+           chmod -R 755 /home/ec2-user/
+
+           python -u /home/ec2-user/timetable_processor.py ${MongoDBInstance.PrivateIp} > /home/ec2-user/log/output_`date +\%Y\%m\%d\%H\%M\%S`.log 2>&1
+
+  CIFCUrl:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${Project}-${Application}-cifcurl'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Code:
+        S3Bucket: !Ref LambdaFunctionBucketName
+        S3Key: !Ref LambdaFunctionZipFileKey
+      Description: ''
+      MemorySize: 400
+      Timeout: 10
+      Role: !GetAtt CIFCUrlLambdaServiceRole.Arn
+      Environment:
+        Variables:
+          s3Bucket: !Ref ArchiveBucket
+          s3BucketFolder: !Ref ArchiveFolder
+          instance: !Ref CifProcessorEC2Instance
+          stompPass: !Ref cifPass
+          stompUser: !Ref cifUser
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+
+  CIFCUrlLambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${Project}-${Application}-LambdaServiceRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+      Policies:
+        - PolicyName: S3WriteAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:PutObject
+                Resource:
+                  - Fn::Sub: arn:aws:s3:::${ArchiveBucket}
+                  - Fn::Sub: arn:aws:s3:::${ArchiveBucket}/${ArchiveFolder}/*
+                
+        - PolicyName: EC2InstanceStart
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "ec2:StartInstances"
+                Resource:
+                  - Fn::Sub: arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/${CifProcessorEC2Instance}
+
+          
+  CifTrigger: 
+    Type: AWS::Events::Rule
+    Properties: 
+      Name: !Sub '${Project}-${Application}-LambdaServiceRole'
+      ScheduleExpression: "cron(45 0 * * ? *)"
+      State: "ENABLED"
+      Targets: 
+        - Arn: !GetAtt CIFCUrl.Arn
+          Id: !Sub '${Project}-${Application}-TargetCifProcessorV1'
+
+  PermissionForEventsToInvokeLambda: 
+    Type: AWS::Lambda::Permission
+    Properties: 
+      FunctionName: !Ref CIFCUrl
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: !GetAtt CifTrigger.Arn

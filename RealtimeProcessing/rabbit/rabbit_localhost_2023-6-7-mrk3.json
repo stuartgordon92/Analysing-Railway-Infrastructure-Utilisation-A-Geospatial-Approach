@@ -1,0 +1,4516 @@
+{
+	"rabbit_version": "3.10.20",
+	"rabbitmq_version": "3.10.20",
+	"product_name": "RabbitMQ",
+	"product_version": "3.10.20",
+	"users": [
+		{
+			"name": "",
+			"password_hash": "",
+			"hashing_algorithm": "",
+			"tags": [
+				""
+			],
+			"limits": {}
+		}
+	],
+	"vhosts": [
+		{
+			"name": "/"
+		},
+		{
+			"name": "rail"
+		}
+	],
+	"permissions": [
+		{
+			"user": "admin",
+			"vhost": "/",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		},
+		{
+			"user": "stuartgordon92",
+			"vhost": "/",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		},
+		{
+			"user": "aws",
+			"vhost": "rail",
+			"configure": "",
+			"write": ".*",
+			"read": ".*"
+		},
+		{
+			"user": "nrod",
+			"vhost": "rail",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		},
+		{
+			"user": "monitoring-AWS-OWNED-DO-NOT-DELETE",
+			"vhost": "rail",
+			"configure": "",
+			"write": "",
+			"read": ".*"
+		},
+		{
+			"user": "monitoring-AWS-OWNED-DO-NOT-DELETE",
+			"vhost": "/",
+			"configure": "",
+			"write": "",
+			"read": ".*"
+		},
+		{
+			"user": "admin",
+			"vhost": "rail",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		},
+		{
+			"user": "stuartgordon92",
+			"vhost": "rail",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		}
+	],
+	"topic_permissions": [
+		{
+			"user": "nrod",
+			"vhost": "/",
+			"exchange": "nrod",
+			"write": ".*",
+			"read": ".*"
+		}
+	],
+	"parameters": [
+		{
+			"value": {
+				"max-connections": 500,
+				"max-queues": 500
+			},
+			"vhost": "/",
+			"component": "vhost-limits",
+			"name": "limits"
+		}
+	],
+	"global_parameters": [
+		{
+			"name": "cluster_name",
+			"value": "Rabbit-trust-rabbit"
+		},
+		{
+			"name": "internal_cluster_id",
+			"value": "rabbitmq-cluster-id-qBoRfQYYqYPMfGEWIT10Jg"
+		}
+	],
+	"policies": [
+		{
+			"vhost": "rail",
+			"name": "tt-nrod",
+			"pattern": "NROD.*",
+			"apply-to": "all",
+			"definition": {
+				"message-ttl": 10000
+			},
+			"priority": 1
+		},
+		{
+			"vhost": "rail",
+			"name": "incident-ttl",
+			"pattern": "INCIDENT.*",
+			"apply-to": "all",
+			"definition": {
+				"message-ttl": 600000
+			},
+			"priority": 0
+		},
+		{
+			"vhost": "rail",
+			"name": "trust_ttl",
+			"pattern": "TRUST_*",
+			"apply-to": "all",
+			"definition": {
+				"message-ttl": 10000
+			},
+			"priority": 3
+		},
+		{
+			"vhost": "rail",
+			"name": "s3-pull-ttl",
+			"pattern": "TEST.*",
+			"apply-to": "all",
+			"definition": {
+				"message-ttl": 600000
+			},
+			"priority": 2
+		},
+		{
+			"vhost": "rail",
+			"name": "ttl",
+			"pattern": "DARWIN.*",
+			"apply-to": "all",
+			"definition": {
+				"message-ttl": 10000
+			},
+			"priority": 1
+		},
+		{
+			"vhost": "/",
+			"name": "AWS-DEFAULT-POLICY-SINGLE-INSTANCE",
+			"pattern": ".*",
+			"apply-to": "all",
+			"definition": {
+				"queue-mode": "lazy"
+			},
+			"priority": 0
+		},
+		{
+			"vhost": "rail",
+			"name": "td_ttl",
+			"pattern": "TD_*",
+			"apply-to": "all",
+			"definition": {
+				"message-ttl": 10000
+			},
+			"priority": 3
+		}
+	],
+	"queues": [
+		{
+			"name": "TEST_NROD.TRAIN_MVT_ALL_TOC_EF",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_SP",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HF",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_T0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_PB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {
+				"x-queue-type": "classic"
+			}
+		},
+		{
+			"name": "TD_SM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_TY",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_AW",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ZA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_X8",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_FE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_LN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_G2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_G1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_XL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST_NROD.TRAIN_MVT_ALL_TOC_HX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BU",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Z1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_TN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_T2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EF",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M4",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_ACT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_XB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_GD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_XA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_DY",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M9",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_AL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_ZB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_C0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_C3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HQ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y4",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HU",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PF",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D6",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ZG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST_NROD.TRAIN_MVT_ALL_TOC_HM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MP",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_SJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_PT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WW",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_C6",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HY",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_AN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_GA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_HT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_W2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y8",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_HN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_YA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SU",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_LA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_PL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_RW",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M5",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_FH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HP",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST_TD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {
+				"x-max-length": 200,
+				"x-queue-type": "classic"
+			}
+		},
+		{
+			"name": "TD_Q5",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_DH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EK",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D4",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_TE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_R2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Q6",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_XC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_PX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_T1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_L1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_E1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_A3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_VC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_R3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_FM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LF",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_YD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Q2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_KG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SV",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_R4",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_LR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_G3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_B2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Q4",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_XB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EU",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_X1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_DR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Q3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_AD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST_NROD.VSTP_ALL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M8",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_LC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_MV",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_DA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_TD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_AS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_XE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ME",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_B1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_PH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EK",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_C5",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST_NROD.TRAIN_MVT_ALL_TOC_ET",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_KM",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_WA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_RT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TEST_NROD.TRAIN_MVT_ALL_TOC_HA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PI",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SK",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_G4",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_X0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_TB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_PJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_IR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BP",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PK",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_C1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WK",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_T3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_GL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y9",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y5",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_QJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_C2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CY",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_TW",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M6",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_XJ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Q0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D7",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_ET",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D9",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_HG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_DU",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_A2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_DA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y7",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_DB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_YC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_XE",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Q1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MZ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_X3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_R1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_CAN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WI",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NK",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_R5",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HZ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_SD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_XH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_X2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CV",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_BL",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_EX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RU",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_IH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y6",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_KN",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ZY",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ZR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ZH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CT",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_YG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PS",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_WY",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M7",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_U3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RQ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_X7",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_TH",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_M3",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_L2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RZ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ED",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_YB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_NR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_ZB",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_ED",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EI",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HV",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D2",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_CC",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D1",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_PV",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_YO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HR",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_SX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_HW",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_Y0",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_EG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_D5",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_SO",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_MA",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_LD",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_ES",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_RG",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TD_NX",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		},
+		{
+			"name": "TRUST_MVT_ZZ",
+			"vhost": "rail",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		}
+	],
+	"exchanges": [
+		{
+			"name": "nrod_split",
+			"vhost": "rail",
+			"type": "topic",
+			"durable": true,
+			"auto_delete": false,
+			"internal": false,
+			"arguments": {}
+		},
+		{
+			"name": "nrod",
+			"vhost": "rail",
+			"type": "direct",
+			"durable": true,
+			"auto_delete": false,
+			"internal": false,
+			"arguments": {}
+		}
+	],
+	"bindings": [
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_TD",
+			"destination_type": "queue",
+			"routing_key": "TD_WTV_SIG_AREA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_TD",
+			"destination_type": "queue",
+			"routing_key": "TD_WWC_SIG_AREA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_HX",
+			"destination_type": "queue",
+			"routing_key": "TEST_TRAIN_MVT_ALL_TOC_HX",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_ALL_TOC_EF",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_EF",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_ALL_TOC_EF",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_ET",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_ALL_TOC_ET",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_HA",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_ALL_TOC_HA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_ALL_TOC_HM",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_HM",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_ALL_TOC_HM",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_EF",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_EF_TOC_EF",
+			"arguments": {}
+		},
+		{
+			"source": "nrod",
+			"vhost": "rail",
+			"destination": "TEST_NROD.TRAIN_MVT_ALL_TOC_EF",
+			"destination_type": "queue",
+			"routing_key": "TRAIN_MVT_EF_TOC_HA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_A2",
+			"destination_type": "queue",
+			"routing_key": "TD.A2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_A3",
+			"destination_type": "queue",
+			"routing_key": "TD.A3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_AD",
+			"destination_type": "queue",
+			"routing_key": "TD.AD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_AL",
+			"destination_type": "queue",
+			"routing_key": "TD.AL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_AN",
+			"destination_type": "queue",
+			"routing_key": "TD.AN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_AS",
+			"destination_type": "queue",
+			"routing_key": "TD.AS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_AW",
+			"destination_type": "queue",
+			"routing_key": "TD.AW",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_B1",
+			"destination_type": "queue",
+			"routing_key": "TD.B1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_B2",
+			"destination_type": "queue",
+			"routing_key": "TD.B2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BA",
+			"destination_type": "queue",
+			"routing_key": "TD.BA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BE",
+			"destination_type": "queue",
+			"routing_key": "TD.BE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BG",
+			"destination_type": "queue",
+			"routing_key": "TD.BG",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BL",
+			"destination_type": "queue",
+			"routing_key": "TD.BL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BM",
+			"destination_type": "queue",
+			"routing_key": "TD.BM",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BP",
+			"destination_type": "queue",
+			"routing_key": "TD.BP",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BS",
+			"destination_type": "queue",
+			"routing_key": "TD.BS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BU",
+			"destination_type": "queue",
+			"routing_key": "TD.BU",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_BX",
+			"destination_type": "queue",
+			"routing_key": "TD.BX",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_C0",
+			"destination_type": "queue",
+			"routing_key": "TD.C0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_C1",
+			"destination_type": "queue",
+			"routing_key": "TD.C1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_C2",
+			"destination_type": "queue",
+			"routing_key": "TD.C2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_C3",
+			"destination_type": "queue",
+			"routing_key": "TD.C3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_C5",
+			"destination_type": "queue",
+			"routing_key": "TD.C5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_C6",
+			"destination_type": "queue",
+			"routing_key": "TD.C6",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CA",
+			"destination_type": "queue",
+			"routing_key": "TD.CA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CC",
+			"destination_type": "queue",
+			"routing_key": "TD.CC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CD",
+			"destination_type": "queue",
+			"routing_key": "TD.CD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CE",
+			"destination_type": "queue",
+			"routing_key": "TD.CE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CH",
+			"destination_type": "queue",
+			"routing_key": "TD.CH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CL",
+			"destination_type": "queue",
+			"routing_key": "TD.CL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CS",
+			"destination_type": "queue",
+			"routing_key": "TD.CS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CT",
+			"destination_type": "queue",
+			"routing_key": "TD.CT",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CV",
+			"destination_type": "queue",
+			"routing_key": "TD.CV",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_CY",
+			"destination_type": "queue",
+			"routing_key": "TD.CY",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D0",
+			"destination_type": "queue",
+			"routing_key": "TD.D0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D1",
+			"destination_type": "queue",
+			"routing_key": "TD.D1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D2",
+			"destination_type": "queue",
+			"routing_key": "TD.D2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D3",
+			"destination_type": "queue",
+			"routing_key": "TD.D3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D4",
+			"destination_type": "queue",
+			"routing_key": "TD.D4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D5",
+			"destination_type": "queue",
+			"routing_key": "TD.D5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D6",
+			"destination_type": "queue",
+			"routing_key": "TD.D6",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D7",
+			"destination_type": "queue",
+			"routing_key": "TD.D7",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_D9",
+			"destination_type": "queue",
+			"routing_key": "TD.D9",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_DA",
+			"destination_type": "queue",
+			"routing_key": "TD.DA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_DR",
+			"destination_type": "queue",
+			"routing_key": "TD.DR",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_DU",
+			"destination_type": "queue",
+			"routing_key": "TD.DU",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_DY",
+			"destination_type": "queue",
+			"routing_key": "TD.DY",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_E1",
+			"destination_type": "queue",
+			"routing_key": "TD.E1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EA",
+			"destination_type": "queue",
+			"routing_key": "TD.EA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EB",
+			"destination_type": "queue",
+			"routing_key": "TD.EB",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EC",
+			"destination_type": "queue",
+			"routing_key": "TD.EC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ED",
+			"destination_type": "queue",
+			"routing_key": "TD.ED",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EE",
+			"destination_type": "queue",
+			"routing_key": "TD.EE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EH",
+			"destination_type": "queue",
+			"routing_key": "TD.EH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EK",
+			"destination_type": "queue",
+			"routing_key": "TD.EK",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EN",
+			"destination_type": "queue",
+			"routing_key": "TD.EN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_EX",
+			"destination_type": "queue",
+			"routing_key": "TD.EX",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_FE",
+			"destination_type": "queue",
+			"routing_key": "TD.FE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_FH",
+			"destination_type": "queue",
+			"routing_key": "TD.FH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_G1",
+			"destination_type": "queue",
+			"routing_key": "TD.G1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_G2",
+			"destination_type": "queue",
+			"routing_key": "TD.G2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_G3",
+			"destination_type": "queue",
+			"routing_key": "TD.G3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_G4",
+			"destination_type": "queue",
+			"routing_key": "TD.G4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_GD",
+			"destination_type": "queue",
+			"routing_key": "TD.GD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_GL",
+			"destination_type": "queue",
+			"routing_key": "TD.GL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_HG",
+			"destination_type": "queue",
+			"routing_key": "TD.HG",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_HN",
+			"destination_type": "queue",
+			"routing_key": "TD.HN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_HT",
+			"destination_type": "queue",
+			"routing_key": "TD.HT",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_IH",
+			"destination_type": "queue",
+			"routing_key": "TD.IH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_IR",
+			"destination_type": "queue",
+			"routing_key": "TD.IR",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_KG",
+			"destination_type": "queue",
+			"routing_key": "TD.KG",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_KM",
+			"destination_type": "queue",
+			"routing_key": "TD.KM",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_KN",
+			"destination_type": "queue",
+			"routing_key": "TD.KN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_L1",
+			"destination_type": "queue",
+			"routing_key": "TD.L1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_L2",
+			"destination_type": "queue",
+			"routing_key": "TD.L2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_LA",
+			"destination_type": "queue",
+			"routing_key": "TD.LA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_LC",
+			"destination_type": "queue",
+			"routing_key": "TD.LC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_LN",
+			"destination_type": "queue",
+			"routing_key": "TD.LN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_LR",
+			"destination_type": "queue",
+			"routing_key": "TD.LR",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M0",
+			"destination_type": "queue",
+			"routing_key": "TD.M0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M1",
+			"destination_type": "queue",
+			"routing_key": "TD.M1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M2",
+			"destination_type": "queue",
+			"routing_key": "TD.M2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M3",
+			"destination_type": "queue",
+			"routing_key": "TD.M3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M4",
+			"destination_type": "queue",
+			"routing_key": "TD.M4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M5",
+			"destination_type": "queue",
+			"routing_key": "TD.M5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M6",
+			"destination_type": "queue",
+			"routing_key": "TD.M6",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M7",
+			"destination_type": "queue",
+			"routing_key": "TD.M7",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M8",
+			"destination_type": "queue",
+			"routing_key": "TD.M8",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_M9",
+			"destination_type": "queue",
+			"routing_key": "TD.M9",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MA",
+			"destination_type": "queue",
+			"routing_key": "TD.MA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MD",
+			"destination_type": "queue",
+			"routing_key": "TD.MD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ME",
+			"destination_type": "queue",
+			"routing_key": "TD.ME",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MH",
+			"destination_type": "queue",
+			"routing_key": "TD.MH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MO",
+			"destination_type": "queue",
+			"routing_key": "TD.MO",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MP",
+			"destination_type": "queue",
+			"routing_key": "TD.MP",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MS",
+			"destination_type": "queue",
+			"routing_key": "TD.MS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_MZ",
+			"destination_type": "queue",
+			"routing_key": "TD.MZ",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NE",
+			"destination_type": "queue",
+			"routing_key": "TD.NE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NJ",
+			"destination_type": "queue",
+			"routing_key": "TD.NJ",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NK",
+			"destination_type": "queue",
+			"routing_key": "TD.NK",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NL",
+			"destination_type": "queue",
+			"routing_key": "TD.NL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NM",
+			"destination_type": "queue",
+			"routing_key": "TD.NM",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NS",
+			"destination_type": "queue",
+			"routing_key": "TD.NS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_NX",
+			"destination_type": "queue",
+			"routing_key": "TD.NX",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_PB",
+			"destination_type": "queue",
+			"routing_key": "TD.PB",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_PH",
+			"destination_type": "queue",
+			"routing_key": "TD.PH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_PJ",
+			"destination_type": "queue",
+			"routing_key": "TD.PJ",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_PL",
+			"destination_type": "queue",
+			"routing_key": "TD.PL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_PT",
+			"destination_type": "queue",
+			"routing_key": "TD.PT",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_PX",
+			"destination_type": "queue",
+			"routing_key": "TD.PX",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q0",
+			"destination_type": "queue",
+			"routing_key": "TD.Q0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q1",
+			"destination_type": "queue",
+			"routing_key": "TD.Q1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q2",
+			"destination_type": "queue",
+			"routing_key": "TD.Q2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q3",
+			"destination_type": "queue",
+			"routing_key": "TD.Q3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q4",
+			"destination_type": "queue",
+			"routing_key": "TD.Q4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q5",
+			"destination_type": "queue",
+			"routing_key": "TD.Q5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Q6",
+			"destination_type": "queue",
+			"routing_key": "TD.Q6",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_R1",
+			"destination_type": "queue",
+			"routing_key": "TD.R1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_R2",
+			"destination_type": "queue",
+			"routing_key": "TD.R2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_R3",
+			"destination_type": "queue",
+			"routing_key": "TD.R3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_R4",
+			"destination_type": "queue",
+			"routing_key": "TD.R4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_R5",
+			"destination_type": "queue",
+			"routing_key": "TD.R5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_RT",
+			"destination_type": "queue",
+			"routing_key": "TD.RT",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_RW",
+			"destination_type": "queue",
+			"routing_key": "TD.RW",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SC",
+			"destination_type": "queue",
+			"routing_key": "TD.SC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SJ",
+			"destination_type": "queue",
+			"routing_key": "TD.SJ",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SK",
+			"destination_type": "queue",
+			"routing_key": "TD.SK",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SM",
+			"destination_type": "queue",
+			"routing_key": "TD.SM",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SO",
+			"destination_type": "queue",
+			"routing_key": "TD.SO",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SS",
+			"destination_type": "queue",
+			"routing_key": "TD.SS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SU",
+			"destination_type": "queue",
+			"routing_key": "TD.SU",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SV",
+			"destination_type": "queue",
+			"routing_key": "TD.SV",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_SX",
+			"destination_type": "queue",
+			"routing_key": "TD.SX",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_T0",
+			"destination_type": "queue",
+			"routing_key": "TD.T0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_T1",
+			"destination_type": "queue",
+			"routing_key": "TD.T1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_T2",
+			"destination_type": "queue",
+			"routing_key": "TD.T2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_T3",
+			"destination_type": "queue",
+			"routing_key": "TD.T3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_TB",
+			"destination_type": "queue",
+			"routing_key": "TD.TB",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_TD",
+			"destination_type": "queue",
+			"routing_key": "TD.TD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_TE",
+			"destination_type": "queue",
+			"routing_key": "TD.TE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_TH",
+			"destination_type": "queue",
+			"routing_key": "TD.TH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_TN",
+			"destination_type": "queue",
+			"routing_key": "TD.TN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_TW",
+			"destination_type": "queue",
+			"routing_key": "TD.TW",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_U3",
+			"destination_type": "queue",
+			"routing_key": "TD.U3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_VC",
+			"destination_type": "queue",
+			"routing_key": "TD.VC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_W2",
+			"destination_type": "queue",
+			"routing_key": "TD.W2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WA",
+			"destination_type": "queue",
+			"routing_key": "TD.WA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WC",
+			"destination_type": "queue",
+			"routing_key": "TD.WC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WD",
+			"destination_type": "queue",
+			"routing_key": "TD.WD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WE",
+			"destination_type": "queue",
+			"routing_key": "TD.WE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WH",
+			"destination_type": "queue",
+			"routing_key": "TD.WH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WI",
+			"destination_type": "queue",
+			"routing_key": "TD.WI",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WJ",
+			"destination_type": "queue",
+			"routing_key": "TD.WJ",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WK",
+			"destination_type": "queue",
+			"routing_key": "TD.WK",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WL",
+			"destination_type": "queue",
+			"routing_key": "TD.WL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WN",
+			"destination_type": "queue",
+			"routing_key": "TD.WN",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WO",
+			"destination_type": "queue",
+			"routing_key": "TD.WO",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WS",
+			"destination_type": "queue",
+			"routing_key": "TD.WS",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WW",
+			"destination_type": "queue",
+			"routing_key": "TD.WW",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_WY",
+			"destination_type": "queue",
+			"routing_key": "TD.WY",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_X0",
+			"destination_type": "queue",
+			"routing_key": "TD.X0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_X1",
+			"destination_type": "queue",
+			"routing_key": "TD.X1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_X2",
+			"destination_type": "queue",
+			"routing_key": "TD.X2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_X3",
+			"destination_type": "queue",
+			"routing_key": "TD.X3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_X7",
+			"destination_type": "queue",
+			"routing_key": "TD.X7",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_X8",
+			"destination_type": "queue",
+			"routing_key": "TD.X8",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_XA",
+			"destination_type": "queue",
+			"routing_key": "TD.XA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_XB",
+			"destination_type": "queue",
+			"routing_key": "TD.XB",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_XE",
+			"destination_type": "queue",
+			"routing_key": "TD.XE",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_XL",
+			"destination_type": "queue",
+			"routing_key": "TD.XL",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y0",
+			"destination_type": "queue",
+			"routing_key": "TD.Y0",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y1",
+			"destination_type": "queue",
+			"routing_key": "TD.Y1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y2",
+			"destination_type": "queue",
+			"routing_key": "TD.Y2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y3",
+			"destination_type": "queue",
+			"routing_key": "TD.Y3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y4",
+			"destination_type": "queue",
+			"routing_key": "TD.Y4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y5",
+			"destination_type": "queue",
+			"routing_key": "TD.Y5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y6",
+			"destination_type": "queue",
+			"routing_key": "TD.Y6",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y7",
+			"destination_type": "queue",
+			"routing_key": "TD.Y7",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y8",
+			"destination_type": "queue",
+			"routing_key": "TD.Y8",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Y9",
+			"destination_type": "queue",
+			"routing_key": "TD.Y9",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_YA",
+			"destination_type": "queue",
+			"routing_key": "TD.YA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_YB",
+			"destination_type": "queue",
+			"routing_key": "TD.YB",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_YC",
+			"destination_type": "queue",
+			"routing_key": "TD.YC",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_YD",
+			"destination_type": "queue",
+			"routing_key": "TD.YD",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_YO",
+			"destination_type": "queue",
+			"routing_key": "TD.YO",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_Z1",
+			"destination_type": "queue",
+			"routing_key": "TD.Z1",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ZA",
+			"destination_type": "queue",
+			"routing_key": "TD.ZA",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ZB",
+			"destination_type": "queue",
+			"routing_key": "TD.ZB",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ZG",
+			"destination_type": "queue",
+			"routing_key": "TD.ZG",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ZH",
+			"destination_type": "queue",
+			"routing_key": "TD.ZH",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ZR",
+			"destination_type": "queue",
+			"routing_key": "TD.ZR",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TD_ZY",
+			"destination_type": "queue",
+			"routing_key": "TD.ZY",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_ACT",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0001.#",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_CAN",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0002.#",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_SD",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.10",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_DH",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.11",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LF",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.12",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PT",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.13",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LN",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.14",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LR",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.15",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LC",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.16",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_YG",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.17",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_SP",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.18",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_SJ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.19",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RR",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.2",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EA",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.20",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EB",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.21",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EC",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.22",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_ED",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.23",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EE",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.24",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EF",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.25",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EG",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.26",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EH",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.27",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EM",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.28",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EJ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.29",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PV",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.3",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EK",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.30",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_QJ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.31",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EI",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.32",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_EX",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.33",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PO",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.34",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_ES",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.35",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_TY",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.36",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RU",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.37",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RQ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.38",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RT",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.39",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_FM",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.4",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RZ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.40",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RG",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.42",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RE",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.43",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RB",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.44",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LD",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.45",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RD",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.46",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RH",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.49",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_WA",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.5",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PA",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.50",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PR",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.51",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PK",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.52",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PS",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.53",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PE",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.54",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PF",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.55",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PG",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.56",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PI",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.58",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PM",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.59",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_GA",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.6",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HA",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.60",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HB",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.61",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HE",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.64",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HF",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.65",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_PH",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.7",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HL",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.71",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LG",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.72",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HO",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.74",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HT",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.79",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_DA",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.8",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HU",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.80",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HV",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.81",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HW",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.82",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HY",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.84",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HZ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.85",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_HM",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.86",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_ET",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.88",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_LS",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.89",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_DB",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.9",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_XB",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.90",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_XC",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.91",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_NR",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.92",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_XE",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.93",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_XJ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.94",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_MV",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.95",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_XH",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.97",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_RM",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.98",
+			"arguments": {}
+		},
+		{
+			"source": "nrod_split",
+			"vhost": "rail",
+			"destination": "TRUST_MVT_ZZ",
+			"destination_type": "queue",
+			"routing_key": "TRUST.0003.00",
+			"arguments": {}
+		}
+	]
+}

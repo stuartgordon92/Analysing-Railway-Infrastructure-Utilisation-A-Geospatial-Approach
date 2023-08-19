@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Project:
+    Type: String
+    Description: This is the tag of the project
+  Application:
+    Type: String
+    Description: This is the tag of the application
+Resources:
+  TrustVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 172.16.0.0/16
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}-vpc'
+  TrustInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}-igw'
+  TrustVPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref TrustVPC
+      InternetGatewayId: !Ref TrustInternetGateway
+  TrustPublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref TrustVPC
+      CidrBlock: 172.16.0.0/24
+      AvailabilityZone: eu-west-2a
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}-pub-subnet'
+  TrustPublicSubnetRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref TrustVPC
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}-rtb'
+  TrustPublicSubnetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref TrustPublicSubnetRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref TrustInternetGateway
+  TrustPublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref TrustPublicSubnet
+      RouteTableId: !Ref TrustPublicSubnetRouteTable
+  TrustSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH access
+      VpcId: !Ref TrustVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 128.240.225.54/32
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}-sg'
+
+Outputs:
+  VPCId:
+    Value: !Ref TrustVPC
+    Description: VPC ID
+  SubnetId:
+    Value: !Ref TrustPublicSubnet
+    Description: Public Subnet ID
+  SecurityGroupId:
+    Value: !Ref TrustSecurityGroup
+    Description: Security Group ID

@@ -1,0 +1,242 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates the national train processing system
+
+Parameters:
+
+  Project:
+    Type: String
+    Description: This is the tag of the project
+  Application:
+    Type: String
+    Description: This is the tag of the application
+    
+
+  TimetableTableName:
+    Type: String
+    Description: Name of the timetable table name
+  ActivatedTableName:
+    Type: String
+    Description: Name of the activated table name
+  RunningTableName:
+    Type: String
+    Description: Name of the running table name
+  ArchiveTableName:
+    Type: String
+    Description: Name of the archive table name
+ 
+    
+  MongoURL:
+    Type: String
+    Description: Private IP for Mongo DB
+    AllowedPattern: 172\.16\.[\d]{1,3}.[\d]{1,3}
+    
+  MongoDB:
+    Type: String
+    Description: DB Name of Mongo DB
+    
+  LambdaFunctionBucketName:
+    Type: String
+    Description: Name of the S3 bucket with the TRUST function
+    
+  TRUSTLambdaFunctionZipFileKey:
+    Type: String
+    Description: Name of the S3 key for the TRUST function code
+  TDLambdaFunctionZipFileKey:
+    Type: String
+    Description: Name of the S3 key for the TD function code
+  CleanUpLambdaFunctionZipFileKey:
+    Type: String
+    Description: Name of the S3 key for the CleanUp function code
+
+  RabbitBrokerARN:
+    Type: String
+    Description: ARN of the MQ Broker
+
+  LambdaSubnet:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID where the lambda function will be launched
+  LambdaSecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security Group ID for the lambda functions
+  PyMongoLayerARN:
+    Type: String
+    Description: ARN of the PyMongo Lambda Layer
+ 
+Resources:
+         
+  TRUST:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${Project}-${Application}-TRUST'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Code:
+        S3Bucket: !Ref LambdaFunctionBucketName
+        S3Key: !Ref TRUSTLambdaFunctionZipFileKey
+      Description: ''
+      MemorySize: 128
+      Timeout: 20
+      Role: !GetAtt MessageProcessingRole.Arn
+      Environment:
+        Variables:
+          timetable_table_name: !Ref TimetableTableName
+          activated_table_name: !Ref ActivatedTableName
+          running_table_name: !Ref RunningTableName
+          archive_table_name: !Ref ArchiveTableName
+          mongo_url: !Ref MongoURL
+          mongo_db: !Ref MongoDB
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref LambdaSecurityGroup
+        SubnetIds: 
+          - !Ref LambdaSubnet
+      Layers: 
+        - !Ref PyMongoLayerARN
+
+  TD:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${Project}-${Application}-TD'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Code:
+        S3Bucket: !Ref LambdaFunctionBucketName
+        S3Key: !Ref TDLambdaFunctionZipFileKey
+      Description: ''
+      MemorySize: 128
+      Timeout: 30
+      Role: !GetAtt MessageProcessingRole.Arn
+      Environment:
+        Variables:
+          running_table_name: !Ref RunningTableName
+          mongo_url: !Ref MongoURL
+          mongo_db: !Ref MongoDB
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref LambdaSecurityGroup
+        SubnetIds: 
+          - !Ref LambdaSubnet
+      Layers: 
+        - !Ref PyMongoLayerARN
+
+
+  CleanUp:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${Project}-${Application}-CleanUp'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Code:
+        S3Bucket: !Ref LambdaFunctionBucketName
+        S3Key: !Ref CleanUpLambdaFunctionZipFileKey
+      Description: ''
+      MemorySize: 128
+      Timeout: 30
+      Role: !GetAtt MessageProcessingRole.Arn
+      Environment:
+        Variables:
+          activated_table_name: !Ref ActivatedTableName
+          running_table_name: !Ref RunningTableName
+          archive_table_name: !Ref ArchiveTableName
+          mongo_url: !Ref MongoURL
+          mongo_db: !Ref MongoDB
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref LambdaSecurityGroup
+        SubnetIds: 
+          - !Ref LambdaSubnet
+      Layers: 
+        - !Ref PyMongoLayerARN
+
+
+  MessageProcessingRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${Project}-${Application}-MessageProcessingRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+      Policies:
+        - PolicyName: DescribeMQBroker
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - mq:DescribeBroker
+                Resource:
+                  - Fn::Sub: arn:aws:mq:eu-west-2:066459507408:broker:Rabbit-trust-rabbit:${RabbitBrokerARN}
+        - PolicyName: SecretAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource:
+                  - arn:aws:secretsmanager:eu-west-2:066459507408:secret:rabbitmq_test-rQud99
+        - PolicyName: VPCENIConnection
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - ec2:DescribeNetworkInterfaces
+                  - ec2:CreateNetworkInterface
+                  - ec2:DeleteNetworkInterface
+                  - ec2:DescribeInstances
+                  - ec2:AttachNetworkInterface
+                Resource:
+                  - "*"
+  CleanUpTrigger: 
+    Type: AWS::Events::Rule
+    Properties: 
+      Name: !Sub '${Project}-${Application}-LambdaServiceRole'
+      ScheduleExpression: "rate(2 minutes)"
+      State: "ENABLED"
+      Targets: 
+        - Arn: !GetAtt CleanUp.Arn
+          Id: !Sub '${Project}-${Application}-TargetCleanUpV1'
+
+  PermissionForEventsToInvokeLambda: 
+    Type: AWS::Lambda::Permission
+    Properties: 
+      FunctionName: !Ref CleanUp
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: !GetAtt CleanUpTrigger.Arn

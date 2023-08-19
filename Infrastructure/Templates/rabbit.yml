@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  Project:
+    Type: String
+    Description: This is the tag of the project
+  Application:
+    Type: String
+    Description: This is the tag of the application
+  Subnet:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID where the EC2 instance will be launched
+
+  AmazonMqUsername:
+    Type: String
+
+  AmazonMqPassword:
+    Type: String
+
+Resources:
+  RabbitMQBroker:
+    Type: "AWS::AmazonMQ::Broker"
+    Properties: 
+      AutoMinorVersionUpgrade: "true"
+      BrokerName: !Sub 'Rabbit-${Project}-${Application}'
+      DeploymentMode: SINGLE_INSTANCE
+      EngineType: RabbitMQ
+      EngineVersion: "3.10.10"
+      HostInstanceType: mq.t3.micro
+      PubliclyAccessible: "true"
+      SubnetIds:
+       - !Ref Subnet
+      Logs:
+        General: "true"
+      Users:
+        - Password: !Ref AmazonMqPassword
+          Username: !Ref AmazonMqUsername
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+          
+Outputs:
+  BrokerId:
+    Value: !Ref RabbitMQBroker
+    Description: Amazon MQ Broker ID
+  BrokerUrl:
+    Value: !Select [0, !GetAtt RabbitMQBroker.AmqpEndpoints]
+    Description: Amazon MQ Broker URL

@@ -1,0 +1,146 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An AWS Lambda function to retrive MQ messages from queues and store them in S3
+
+Parameters:
+  Project:
+    Type: String
+    Description: This is the tag of the project
+  Application:
+    Type: String
+    Description: This is the tag of the application
+  LambdaFunctionBucketName:
+    Type: String
+    Description: Name of the S3 bucket with the function
+  LambdaFunctionZipFileKey:
+    Type: String
+    Description: Name of the S3 key for the function code
+  rabbitBrokerARN:
+    Type: String
+    Description: Rabbit Broker ARN
+  rabbitPass:
+    Type: String
+    Description: rabbit admin password
+  rabbitUser:
+    Type: String
+    Description: rabbit admin username
+  ArchiveBucket:
+    Type: String
+    Description: Name of the S3 bucket with the function
+  ArchiveFolder:
+    Type: String
+    Description: Name of the S3 key for the function code
+  VirtualHost:
+    Type: String
+    Description: Name of the virtual host
+  ListofQueues:
+    Type: CommaDelimitedList
+    Description: List of queues to add (comma seperated list)
+  BatchWindow:
+    Type: Number
+    Description: Batchwindow size (time in seconds)
+ 
+Resources:
+  RabbitMQSecret:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Sub '${Project}-${Application}-rabbit-mq-secret'
+      Description: My secret for the RabbitMQ broker credentials
+      SecretString: !Sub '{"username":"${rabbitUser}","password":"${rabbitPass}"}'
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+          
+  LoggerLambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${Project}-${Application}-LambdaServiceRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+          
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+      Policies:
+        - PolicyName: S3WriteAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                  - s3:PutObject
+                Resource:
+                  - Fn::Sub: arn:aws:s3:::${ArchiveBucket}
+                  - Fn::Sub: arn:aws:s3:::${ArchiveBucket}/${ArchiveFolder}/*
+        - PolicyName: SecretManagerAccess
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - 'secretsmanager:GetSecretValue'
+                Effect: Allow
+                Resource: !Ref RabbitMQSecret
+        - PolicyName: MQBrokerAccess
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - 'mq:DescribeBroker'
+                Effect: Allow
+                Resource: !Ref rabbitBrokerARN
+                
+  rabbitmqtos3:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${Project}-${Application}-LambdaRabbitMQToS3'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      Code:
+        S3Bucket: !Ref LambdaFunctionBucketName
+        S3Key: !Ref LambdaFunctionZipFileKey
+      Description: ''
+      MemorySize: 256
+      Timeout: 15
+      Role: !GetAtt LoggerLambdaServiceRole.Arn
+      Layers:
+        - 'arn:aws:lambda:eu-west-2:066459507408:layer:xmltodict:1'
+      Environment:
+        Variables:
+          s3Bucket: !Ref ArchiveBucket
+          s3BucketFolder: !Ref ArchiveFolder
+      Tags:
+        - Key: Project
+          Value: !Sub '${Project}'
+        - Key: Application
+          Value: !Sub '${Application}'
+        - Key: Name
+          Value: !Sub '${Project}-${Application}'
+
+  rabbitmqtos3events:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties: 
+      # BatchSize: Integer
+      EventSourceArn: !Ref rabbitBrokerARN
+      FunctionName: !Ref rabbitmqtos3
+      MaximumBatchingWindowInSeconds: !Ref BatchWindow
+      Queues: !Ref ListofQueues
+      SourceAccessConfigurations: 
+        - Type: BASIC_AUTH
+          URI: !Ref RabbitMQSecret
+        - Type: VIRTUAL_HOST
+          URI: !Ref VirtualHost

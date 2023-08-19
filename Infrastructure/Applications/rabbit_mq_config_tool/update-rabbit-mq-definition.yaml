@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template describing your function.
+
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Name of the S3 bucket to grant read-only access to
+
+Resources:
+  LambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaServiceRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+      Policies:
+        - PolicyName: S3ReadOnlyAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - Fn::Sub: arn:aws:s3:::${BucketName}
+                  - Fn::Sub: arn:aws:s3:::${BucketName}/*
+
+  updaterabbitmqdefinition:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      CodeUri: s3://t2-12341351-1341341-1234134/Applications/rabbit_mq_config_tool/update-rabbit-mq-definition-d6f27f3a-68b2-41d3-a5f6-a84d42f5b4f6.zip
+      Description: ''
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaServiceRole.Arn
+      Environment:
+        Variables:
+          configBucket: t2-12341351-1341341-1234134
+          rabbitBroker: >-
+            https://b-ac6abf9b-ab1a-4e03-a4e1-e800795b6ba6.mq.eu-west-2.amazonaws.com
+          rabbitDefS3Key: Applications/rabbit_mq_config_tool/basic-rabbit-trust.json
+          rabbitPass: adminadminadmin
+          rabbitUser: admin
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
