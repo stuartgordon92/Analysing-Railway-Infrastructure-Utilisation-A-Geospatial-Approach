@@ -6,6 +6,8 @@ In the evolving landscape of transportation, the optimisation of railway infrast
 
 ![](https://github.com/stuartgordon92/Analysing-Railway-Infrastructure-Utilisation-A-Geospatial-Approach/blob/main/Writeup/Presentation/Presentation_AnalysingRailwayInfrastructureUtilization.gif)
 
+GIF of [Presentation](https://github.com/stuartgordon92/Analysing-Railway-Infrastructure-Utilisation-A-Geospatial-Approach/blob/main/Writeup/Presentation/Presentation_AnalysingRailwayInfrastructureUtilization.pdf)
+
 ## Poster
 ![Analysing Railway Infrastructure Utilisation: A Geospatial Approach](https://github.com/stuartgordon92/Analysing-Railway-Infrastructure-Utilisation-A-Geospatial-Approach/blob/main/Writeup/Poster/StuartGordon_Poster_AnalysingRailwayInfrastructureUtilisation_AGeospatialApproach.png?raw=true)
 
